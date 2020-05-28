@@ -1,0 +1,6 @@
+http://127.0.0.1:5000/
+http://127.0.0.1:5000/api/v1/resources/books/all
+http://127.0.0.1:5000/api/v1/resources/books?author=Connie+Willis&published=1993
+http://127.0.0.1:5000/api/v1/resources/books?published=2010
+
+http://127.0.0.1:5000/api/v1/resources/books/add
