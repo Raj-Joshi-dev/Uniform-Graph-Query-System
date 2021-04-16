@@ -14,10 +14,11 @@ services:
     container_name: memgraph
     volumes:
       - ./memgraph/modules:/usr/lib/memgraph/query_modules
+      - ./memgraph/modules:/usr/lib/memgraph/import-data
     networks:
       - test_network
     ports:
-      - "7688:7687"
+      - "7687:7687"
 
   neo4j:
     image: neo4j:latest
@@ -30,10 +31,11 @@ services:
       - ./neo4j/conf:/conf
     ports:
       - "7474:7474"
-      - "7687:7687"
+      - "7688:7687"
     environment:
       - NEO4J_apoc_export_file_enabled=true
       - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file.use_neo4j_config=false
       - NEO4J_dbms_security_procedures_unrestricted=apoc.*,algo.*
       - NEO4J_dbms_memory_heap_initial__size=512m
       - NEO4J_dbms_memory_heap_max__size=2G
