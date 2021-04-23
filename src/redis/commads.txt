@@ -1,6 +1,6 @@
 # Import CSV into redisgraph using redisgraph-bulk-loader (reference: https://github.com/RedisGraph/redisgraph-bulk-loader#input-constraints)
 
-redisgraph-bulk-loader DemoGraph --enforce-schema --nodes-with-label TBox import/nodes.csv --relations-with-type relations import/relationship.csv 
+redisgraph-bulk-loader DemoGraph --enforce-schema --nodes import/TBox.csv --nodes import/ABox.csv --nodes import/Namespace.csv --relations-with-type relations import/relationship.csv
 
 ++++++++ redis-cli commands (reference: https://oss.redislabs.com/redisgraph/commands/)++++++++++++
 
