@@ -15,6 +15,9 @@ services:
     volumes:
       - ./memgraph/modules:/usr/lib/memgraph/query_modules
       - ./memgraph/modules:/usr/lib/memgraph/import-data
+      - ./memgraph/mg_lib:/var/lib/memgraph
+      - ./memgraph/mg_log:/var/log/memgraph
+      - ./memgraph/mg_etc:/etc/memgraph
     networks:
       - test_network
     ports:
