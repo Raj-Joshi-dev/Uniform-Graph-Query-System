@@ -1,4 +1,4 @@
-﻿type,id,label,start__id,start__labels__-,end__id,end__labels__001,properties__level,properties__namespace,properties__description,properties__title,properties__uri,end__labels__002
+type,id,label,start_id,start_labels,end_id,end_labels_001,properties_level,properties_namespace,properties_description,properties__title,properties__uri,end__labels__002
 relationship,0,type_of,2,Abox,110,TBox,,,,,,
 relationship,1,type_of,3,Abox,89,TBox,,,,,,
 relationship,2,type_of,4,Abox,88,TBox,,,,,,
