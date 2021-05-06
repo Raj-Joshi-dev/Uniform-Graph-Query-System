@@ -1,0 +1,21 @@
+# RedisGraph
+
+docker run -d \
+    --name redis \
+    -p 6379:6379 \
+    -v /tmp/redis:/data \
+    --restart=unless-stopped \
+    redislabs/redisgraph \
+    --save 60 1
+
+# Memgraph
+
+docker run -v mg_lib:/var/lib/memgraph -p 7687:7687 memgraph/memgraph --data-directory /var/lib/memgraph
+
+# Neo4j
+
+docker-compose up
+
+# start redis-insight
+
+./redisinsight-linux64-1.10.0
