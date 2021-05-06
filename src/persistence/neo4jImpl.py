@@ -1,4 +1,3 @@
-import math
 from utilities import neo4jConfig as ncfg
 from persistence.connection import Connection
 from neo4j import GraphDatabase
@@ -11,7 +10,7 @@ class Neo4jImpl(Connection):
 
     def connect(self, url, user, password):
         self.driver = GraphDatabase.driver(url, auth=(user, password))
-        print("connection successful")
+        print("Neo4j connection successful")
 
     def execute(self, query):
         with self.driver.session() as session:
@@ -29,4 +28,4 @@ class Neo4jImpl(Connection):
 
     def disconnect(self):
         self.driver.close()
-        print("connection terminated")
+        print("Neo4j connection terminated")

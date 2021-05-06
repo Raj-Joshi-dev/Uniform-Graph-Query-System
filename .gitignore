@@ -1,2 +1,3 @@
 /src/neo4j
+/src/memgraph
 /src/.env
