@@ -1,27 +1,27 @@
 version: "3"
 services:
-  redis:
-    image: redislabs/redisgraph
-    container_name: redis
-    volumes:
-      - ./redis/data:/data
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
+  # redis:
+  #   image: redislabs/redisgraph
+  #   container_name: redis
+  #   volumes:
+  #     - ./redis/data:/tmp/redis
+  #   restart: unless-stopped
+  #   ports:
+  #     - "6379:6379"
 
-  memgraph:
-    image: memgraph:latest
-    container_name: memgraph
-    volumes:
-      - ./memgraph/modules:/usr/lib/memgraph/query_modules
-      - ./memgraph/modules:/usr/lib/memgraph/import-data
-      - ./memgraph/mg_lib:/var/lib/memgraph
-      - ./memgraph/mg_log:/var/log/memgraph
-      - ./memgraph/mg_etc:/etc/memgraph
-    networks:
-      - test_network
-    ports:
-      - "7687:7687"
+  # memgraph:
+  #   image: memgraph:latest
+  #   container_name: memgraph
+  #   volumes:
+  #     - ./memgraph/modules:/usr/lib/memgraph/query_modules
+  #     - ./memgraph/modules:/usr/lib/memgraph/import-data
+  #     - ./memgraph/mg_lib:/var/lib/memgraph
+  #     - ./memgraph/mg_log:/var/log/memgraph
+  #     - ./memgraph/mg_etc:/etc/memgraph
+  #   networks:
+  #     - test_network
+  #   ports:
+  #     - "7687:7687"
 
   neo4j:
     image: neo4j:latest

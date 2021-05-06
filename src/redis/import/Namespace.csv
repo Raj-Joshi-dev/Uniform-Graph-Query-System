@@ -1,5 +1,0 @@
-:ID(Cow),label:STRING,properties_unique:STRING,properties_namespace:STRING,properties__description:STRING,properties__title:STRING,properties__uri:STRING,properties__xsd_type:STRING,properties__identifier:STRING,properties__ontology_level:STRING,properties__html_info:STRING,properties__admin:string,properties__sing:string,properties__pl:string,properties__version:string,properties__comment:string,properties__url:string
-115,namespace,,,,dcterms,http://purl.org/dc/terms/,,,,,,,,,,www.dublincore.org/documents/dcmi-terms/
-116,namespace,,,,skm,http://uni-bamberg.de/mobi/skm,,,,,,,,,upper: generic terms for SKM system,https://www.uni-bamberg.de/en/mobi/research/simutool/
-117,namespace,,,,foaf,http://xmlns.com/foaf/spec/,,,,,,,,,,http://xmlns.com/foaf/spec/
-122,namespace,,,,prov,http://www.w3.org/ns/prov#,,,,,,,,,,http://www.w3.org/ns/prov#
