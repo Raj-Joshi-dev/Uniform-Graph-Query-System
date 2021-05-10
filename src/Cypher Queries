@@ -1,0 +1,27 @@
+******* MATCH (Reading/Retrieving from dataset, more complex queries can be formed) *******
+
+Fetch relationship via label type_of
+
+1. Neo4j - MATCH (n)-[r:type_of]-() RETURN r, n;
+- Neo4j stores type_of relationship type.
+
+2. Memgraph - MATCH (n)-[r {label: "type_of"}]-() RETURN r, n;
+- It stores type_of as label of relationship.
+
+Fetch node and associated relationships with label TBox having node id 72
+
+1. Neo4j - MATCH (n:TBox)-[r]->(b) WHERE (n.neo4jImportId = '72') RETURN r, n, b;
+- here id of node is interpreted by neo4jImportId because dataset was loaded from a JSON.
+
+2. Memgraph - MATCH (n:TBox)-[r]->(b) WHERE (n.id = '72') RETURN r, n, b;
+- here id of node is stored normally as id property.
+
+Fetch all TBox nodes
+
+1. Neo4j - MATCH (n:TBox) RETURN n;
+1. Memgraph - MATCH (n:TBox) RETURN n;
+
++++++++ CREATE (Create a node or relationship between two nodes) ******
+
+****** DELETE (Delete a node or relationship between two nodes) ******
+

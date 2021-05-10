@@ -1,0 +1,35 @@
+@startuml
+skinparam componentStyle rectangle
+
+component driver
+
+
+package "PolyglotPersistence" {
+  component "CypherPersistenceApi" {
+
+  }
+  component Connection {
+      component Neo4jImpl {
+      }
+      component MemgraphImpl {
+      }
+  }
+}
+
+
+database "Neo4j" {
+}
+
+
+
+database "Memgraph" {
+}
+
+
+driver --> CypherPersistenceApi
+CypherPersistenceApi --> Connection
+Neo4jImpl --> Neo4j
+MemgraphImpl --> Memgraph
+'[Folder 3] --> [Frame 4]
+
+@enduml

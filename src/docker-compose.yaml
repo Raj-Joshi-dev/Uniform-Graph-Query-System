@@ -9,19 +9,20 @@ services:
   #   ports:
   #     - "6379:6379"
 
-  # memgraph:
-  #   image: memgraph:latest
-  #   container_name: memgraph
-  #   volumes:
-  #     - ./memgraph/modules:/usr/lib/memgraph/query_modules
-  #     - ./memgraph/modules:/usr/lib/memgraph/import-data
-  #     - ./memgraph/mg_lib:/var/lib/memgraph
-  #     - ./memgraph/mg_log:/var/log/memgraph
-  #     - ./memgraph/mg_etc:/etc/memgraph
-  #   networks:
-  #     - test_network
-  #   ports:
-  #     - "7687:7687"
+#  memgraph:
+#    image: memgraph
+#    user: root
+#    container_name: memgraph
+#    volumes:
+#      - ./memgraph/import-data:/usr/lib/memgraph/import-data
+#      - ./memgraph/mg_lib:/var/lib/memgraph
+#      - ./memgraph/mg_log:/var/log/memgraph
+#      - ./memgraph/mg_etc:/etc/memgraph
+#    ports:
+#      - "7687:7687"
+#    environment:
+#      MG_HOST: memgraph
+#      MG_PORT: 7687
 
   neo4j:
     image: neo4j:latest
@@ -48,12 +49,11 @@ services:
       - NEO4J_dbms_default__database=neo4j
       - NEO4J_AUTH=neo4j/test
       - NEO4JLABS_PLUGINS=["apoc"]
-    networks: ["Neo4j-test"]
+    networks: [ "Neo4j-test" ]
     restart: unless-stopped
 
 networks:
   Neo4j-test:
-  test_network:
     driver: bridge
 
 # use docker volume to persist data outside of a container.

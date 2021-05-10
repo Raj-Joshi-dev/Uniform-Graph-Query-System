@@ -1,10 +1,9 @@
 #!/usr/bin/env python
+import os
 
-# neo4j = {
-#     "url": "bolt://localhost:7688",
-#     "user": "neo4j",
-#     "password": "test",
-# }
 # host = '0.0.0.0'
-host = '127.0.0.1'
-port = 7687
+# host = '127.0.0.1'
+# port = 7687
+
+host = os.getenv('MG_HOST', '127.0.0.1')
+port = int(os.getenv('MG_PORT', '7687'))
