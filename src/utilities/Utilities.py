@@ -4,8 +4,9 @@ from enum import Enum
 class DatabaseType(Enum):
     Neo4j = 0
     Memgraph = 1
-    Unknown = 2
+    RedisGraph = 2
     Exit = 3
+    Unknown = 4
 
 
 class QueryType(Enum):
@@ -19,5 +20,11 @@ class QueryType(Enum):
 
 
 regexMap = {QueryType.SELECT_MATCH: '^MATCH.+RETURN.+$'}
+
+
+def readQueriesFromFile(file):
+    f = open(file, "r")
+    return f.read().splitlines()
+
 
 exitCommands = ["exit", "EXIT", "e"]

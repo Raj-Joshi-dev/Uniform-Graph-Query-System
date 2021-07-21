@@ -1,4 +1,4 @@
-******* MATCH (Reading/Retrieving from dataset, more complex queries can be formed) *******
+******* MATCH (Reading/Retrieving from dataset, more complex pattern matching/querying is possible) *******
 
 Fetch relationship via label type_of
 
@@ -10,8 +10,8 @@ Fetch relationship via label type_of
 
 Fetch node and associated relationships with label TBox having node id 72
 
-1. Neo4j - MATCH (n:TBox)-[r]->(b) WHERE (n.neo4jImportId = '72') RETURN r, n, b;
-- here id of node is interpreted by neo4jImportId because dataset was loaded from a JSON.
+1. Neo4j - MATCH (n:TBox)-[r]->(b) WHERE id(n)=72 RETURN r, n, b;
+- here id of node is interpreted by neo4jImportId because that's how Neo4j loads a JSON.
 
 2. Memgraph - MATCH (n:TBox)-[r]->(b) WHERE (n.id = '72') RETURN r, n, b;
 - here id of node is stored normally as id property.
@@ -21,7 +21,19 @@ Fetch all TBox nodes
 1. Neo4j - MATCH (n:TBox) RETURN n;
 1. Memgraph - MATCH (n:TBox) RETURN n;
 
-+++++++ CREATE (Create a node or relationship between two nodes) ******
+Simple pattern match to return all nodes with relationship_type : required_property
 
-****** DELETE (Delete a node or relationship between two nodes) ******
+MATCH p=()-[r:required_property]->() RETURN p LIMIT 25;
+
++++++++ CREATE (Create a node or relationship between two nodes) WIP!!! ******
+
+Create nodes with relationship type (:relation) between TBox and ABox
+
+1. Neo4j - CREATE p=(n:TBox)-[r:relation]->(a:ABox) RETURN p
+2. Memgraph - CREATE (n:TBox)-[r:relation]->(a:ABox) RETURN n,r,a
+
+Can also create empty nodes with no labels by not specifying the other node.
+
+****** DELETE (Delete a node or relationship between two nodes) WIP!!! ******
+
 

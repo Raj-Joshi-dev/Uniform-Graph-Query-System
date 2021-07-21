@@ -1,0 +1,31 @@
+1
+MATCH (n) WHERE ID(n) = 71 RETURN n
+MATCH (n)- [r] -> (b:TBox) WHERE id(n)=71 RETURN r,b,n;
+match (a) - [r] -> (b) return a, type(r), b limit 1
+match (a:TBox {title: 'Person'}) - [r] -> (b) where not (b:property) return a, type(r), b
+MATCH (n) with count(n) as nodes MATCH () - [r] -> () RETURN nodes, count(r) as relationships
+match(c {title: "Agent"})<-[:subclass_of*1..]-(n)<-[:type_of]-(no) return no
+match(c {title: "D4Thing"})<-[:subclass_of*0..]-(n)<-[:type_of*1..]-(no) return n, count(no)
+match (n) <-[:subclass_of*0..]-({title: 'User'}) return n
+match (rp)<-[:required_property]-(n) <-[:subclass_of*0..]-({title: 'User'}) return rp
+match (op)<-[:optional_property]-(n) <-[:subclass_of*0..]-({title: 'User'}) return op
+match(c {title: "Agent"})<-[:subclass_of*0..]-(n)<-[r]-(no) return count(r)
+match (n)- [r] - ({title: 'Person'}) return r
+MATCH (a)-[r]->(b) RETURN distinct(type(r))
+CREATE (n:Abox {description: 'A dummy node to test', title: 'Developer', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:Abox {description: 'A dummy node to test', title: 'User', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:Abox {description: 'A dummy node to test', title: 'Client', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:Abox {description: 'A dummy node to test', title: 'Tester', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:Abox {description: 'A dummy node to test', title: 'Customer', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:TBox {description: 'A dummy node to test', title: 'Customer1', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:TBox {description: 'A dummy node to test', title: 'Customer2', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:TBox {description: 'A dummy node to test', title: 'Customer3', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:TBox {description: 'A dummy node to test', title: 'Customer4', identifier: 'http://example.org/abox/test'}) RETURN n;
+CREATE (n:TBox {title: 'Dummy'})-[r:optional_property]->(a:Abox {title: 'Pummy'}) RETURN n,r,a;
+CREATE (n:TBox {title: 'Dummy'})-[r:used]->(a:Abox {title: 'Pummy'}) RETURN n,r,a;
+CREATE (n:TBox {title: 'Dummy'})-[r:hasPart]->(a:Abox {title: 'Pummy'}) RETURN n,r,a;
+CREATE (n:TBox {title: 'Dummy'})-[r:requires]->(a:Abox {title: 'Pummy'}) RETURN n,r,a;
+CREATE (n:TBox {title: 'Dummy'})-[r:object_property]->(a:Abox {title: 'Pummy'}) RETURN n,r,a;
+MATCH (p:TBox {title: 'Dummy'}) SET p.description = 'Description updated!' RETURN p;
+MATCH (m:Abox {title: 'Client'}) DELETE m;
+MATCH (m:Abox {title: 'Pummy'}) DETACH DELETE m

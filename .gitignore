@@ -1,3 +1,4 @@
 /src/neo4j
 /src/memgraph
+/src/redis
 /src/.env

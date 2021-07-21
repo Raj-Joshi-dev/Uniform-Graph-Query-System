@@ -1,0 +1,36 @@
+## Get all relationships
+match (a) - [r] -> (b) return a, type(r), b
+
+#Get all distinct relationships
+match () - [r] -> () return collect(distinct type(r)) as r;
+
+## all relationships of a node type(exclude property relations)
+match (a:TBox {title: 'Person'}) - [r] -> (b) where not (b:property) return a, type(r), b
+
+## Count all nodes and relationships
+MATCH (n)
+with count(n) as nodes
+MATCH () - [r] -> ()
+RETURN nodes, count(r) as relationships
+
+## Get all instances of a node and all subclasses instances
+match(c {title: "Agent"})<-[:subclass_of*1..]-(n)<-[:type_of]-(no) return no
+
+## Get number of instances per class
+match(c {title: "D4Thing"})<-[:subclass_of*0..]-(n)<-[:type_of*1..]-(no) return n, count(no)
+
+
+## Find all the parent class of a node(i.e: User)
+match (n) <-[:subclass_of*0..]-({title: 'User'}) return n
+
+## find all the required property of a node(from root node to this node)
+match (rp)<-[:required_property]-(n) <-[:subclass_of*0..]-({title: 'User'}) return rp
+
+## Find all optional prperties of a certain node(including all the properties from root to this node)
+match (op)<-[:optional_property]-(n) <-[:subclass_of*0..]-({title: 'User'}) return op
+
+## find number of relationships a node has(including all it's subclasses relationships)
+match(c {title: "Agent"})<-[:subclass_of*0..]-(n)<-[r]-(no) return count(r)
+
+
+???? match (n)- [r] - ({title: 'Person'}) return r

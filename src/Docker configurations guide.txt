@@ -1,0 +1,92 @@
+# Memgraph
+
+docker run -v mg_lib:/var/lib/memgraph -p 7687:7687 memgraph/memgraph --data-directory /var/lib/memgraph
+
+# Neo4j
+
+docker-compose up
+
+
+# Inspecting IP Address of a container
+
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+
+# Deleting all containers
+
+docker container rm -f $(docker ps -aq)
+
+################# Memgraph Configuration (https://docs.memgraph.com/memgraph/install-memgraph-on-linux-docker) ######################
+
+1. Load image - docker load -i /path/to/memgraph-<version>-docker.tar.gz
+2. Start Memgraph -
+
+docker run -p 7687:7687 \
+  -v mg_lib:/var/lib/memgraph \
+  -v mg_log:/var/log/memgraph \
+  -v mg_etc:/etc/memgraph \
+  memgraph
+
+3. To stop - docker stop CONTAINER_NAME
+
+****************** Memgraph Import (https://docs.memgraph.com/memgraph/database-functionalities/import-data/) *****************+
+
+1. Go to the csv files directory via terminal, then you need to copy the CSV files where the Docker image can see them (Run them one by one to avoid errors):
+
+docker container create --name mg_import_helper -v mg_import:/import-data busybox
+
+docker cp nodes.csv mg_import_helper:/import-data
+
+docker cp relationships.csv mg_import_helper:/import-data
+
+docker rm mg_import_helper
+
+2. Run the importer with the following
+
+docker run -v mg_lib:/var/lib/memgraph -v mg_etc:/etc/memgraph -v mg_import:/import-data \
+  --entrypoint=mg_import_csv memgraph \
+  --nodes /import-data/nodes.csv \
+  --relationships /import-data/relationships.csv
+
+3. Next time you run Memgraph, the dataset will be loaded.
+
+
+########################### Neo4j Import ################################
+
+1. Run following command for importing json into neo4j
+    CALL apoc.import.json("input.json")
+
+2. Run following command for exporting json from neo4j
+    CALL apoc.export.json.all("output.json")
+
+input.json and output.json will be in import folder
+
+########################## RedisGraph ##############################
+
+docker run -d \
+    --name redis \
+    -p 6379:6379 \
+    -v /tmp/redis:/data \
+    --restart=unless-stopped \
+    redislabs/redisgraph \
+    --save 60 1
+
+# Import CSV into redisgraph using redisgraph-bulk-loader (reference: https://github.com/RedisGraph/redisgraph-bulk-loader#input-constraints)
+
+redisgraph-bulk-loader DemoGraph --enforce-schema --nodes import/TBox.csv --nodes import/ABox.csv --nodes import/Namespace.csv --relations-with-type relations import/relationship.csv
+
+++++++++ redis-cli commands (reference: https://oss.redislabs.com/redisgraph/commands/)++++++++++++
+
+# Know the typeset in redisgraph
+TYPE <graph_name>
+
+# Delete a graph
+GRAPH.DELETE <graph_name>
+
+# Querying the graph
+GRAPH.QUERY <graph_name> "MATCH (n) RETURN n"
+
+# start redis-insight
+
+./redisinsight-linux64-1.10.0
+
+

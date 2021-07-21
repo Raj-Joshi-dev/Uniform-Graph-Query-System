@@ -1,35 +1,112 @@
 @startuml
 skinparam componentStyle rectangle
 
-component driver
 
 
-package "PolyglotPersistence" {
-  component "CypherPersistenceApi" {
+package SoftwarePackage {
+component Driver
+  note right of [Driver]
+    run_query
+    json_generator
+  end note
 
+  component CypherPersistenceApi
+  note right of [CypherPersistenceApi]
+    class CypherPersistenceApi
+        execute
+        disconnect
+  end note
+
+  component "Helper Utilities (Globally accessible to each component)" {
+    component execution_timer
+    note bottom of [execution_timer]
+        start
+        stop
+    end note
+
+    component neo4j_config
+    component memgraph_config
+    component redisgraph_config
+    component utilities
+
+    note bottom of [utilities]
+        class DatabaseType
+        class QueryType
+        read_queries_from_file
+    end note
+
+    note bottom of [neo4j_config]
+        url
+        user
+        password
+    end note
+
+    note bottom of [memgraph_config]
+        host
+        port
+    end note
+
+    note bottom of [redisgraph_config]
+        host
+        port
+    end note
   }
+
+  component QueryAnalyzer
+  note top of [QueryAnalyzer]
+    detect_query_type
+    transalate_query
+  end note
+
+
   component Connection {
-      component Neo4jImpl {
-      }
-      component MemgraphImpl {
-      }
+      component Neo4jImpl
+      component MemgraphImpl
+      component RedisgraphImpl
+
+      note right of [Neo4jImpl]
+        class Neo4jImpl
+            connect
+            execute
+            serialize_response
+            serialize_data_custom
+            serialize_data_api_way
+            disconnect
+      end note
+      note right of [MemgraphImpl]
+        class MemgraphImpl
+            connect
+            execute
+            serialize_response
+            serialize_data_custom
+            disconnect
+      end note
+      note right of [RedisgraphImpl]
+        class RedisgraphImpl
+            connect
+            execute
+            serialize_data
+            disconnect
+      end note
   }
 }
-
 
 database "Neo4j" {
 }
 
-
-
 database "Memgraph" {
 }
 
+database "Redisgraph" {
+}
 
-driver --> CypherPersistenceApi
+Driver --> CypherPersistenceApi
 CypherPersistenceApi --> Connection
+CypherPersistenceApi --> QueryAnalyzer
 Neo4jImpl --> Neo4j
 MemgraphImpl --> Memgraph
+RedisgraphImpl --> Redisgraph
+
 '[Folder 3] --> [Frame 4]
 
 @enduml

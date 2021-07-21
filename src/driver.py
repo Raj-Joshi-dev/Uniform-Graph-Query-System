@@ -1,61 +1,54 @@
-import pprint
+import jsonlines
 
 from CypherPersistenceApi import CypherPersistenceApi
 from utilities.Utilities import DatabaseType
-from utilities.Utilities import exitCommands
-
-flag = True
-
-
-def printWelcomeMessage():
-    print('This implementation only runs for one persistence mode at a time.')
-    print('Enter one of the following options:')
-    print('1. Neo4j')
-    print('2. Memgraph')
-    print('Enter "exit" to exit.')
+from utilities.Utilities import readQueriesFromFile
+from utilities.executionTimer import ExecutionTimer
 
 
-def requestDatabaseType():
-    dbType = DatabaseType.Unknown
-    plainTextDatabaseType = input()
-    if plainTextDatabaseType == "1":
-        dbType = DatabaseType.Neo4j
-    elif plainTextDatabaseType == "2":
-        dbType = DatabaseType.Memgraph
-    elif exitCommands.__contains__(plainTextDatabaseType):
-        dbType = DatabaseType.Exit
-    return dbType
+def run_query(index, query):
+    # pprint.pprint(connection.execute(query))
+    x = connection.execute(index, query)
+    # print(x)
+    return json_generator(x)
+    # print(x)
+    # return x
 
 
-def handleSloppyUsers():
-    print("That was sloppy, please enter only a number, either 0 or 1.")
-    printWelcomeMessage()
-    return requestDatabaseType()
+# older way
+# def json_test(records):
+#     with open("output/data.json", "a") as f:
+#         json.dump(x, f, indent=2)
+
+# with jsonlines.open('output/output.json', mode='a') as writer:
+#     writer.write(x)
+#     writer.close()
 
 
-def requestQuery():
-    print("Enter a query to be run, type \"exit\" to exit:")
-    query = input()
-    global flag
-    if exitCommands.__contains__(query):
-        flag = False
-    if query == "":
-        query = "MATCH (n:TBox) RETURN n"
-    return query
-
-def runQuery(query):
-    pprint.pprint(connection.execute(query))
+def json_generator(x):
+    with jsonlines.open('output/output.json', mode='a') as writer:
+        writer.write(x)
+        writer.close()
 
 
-printWelcomeMessage()
-databaseType = requestDatabaseType()
-while databaseType == DatabaseType.Unknown:
-    databaseType = handleSloppyUsers()
-if not databaseType == DatabaseType.Exit:
-    connection = CypherPersistenceApi(databaseType)
-    while flag:
-        query = requestQuery()
-        if not exitCommands.__contains__(query):
-            runQuery(query)
-    connection.disconnect()
+queries = readQueriesFromFile("queries.txt")
+if queries[0] == "1":
+    databaseType = DatabaseType.Neo4j
+elif queries[0] == "2":
+    databaseType = DatabaseType.Memgraph
+elif queries[0] == "3":
+    databaseType = DatabaseType.RedisGraph
+else:
+    databaseType = DatabaseType.Unknown
+    print("Invalid data store!")
+connection = CypherPersistenceApi(databaseType)
+queries = queries[1:]
+executionTimer = ExecutionTimer()
+executionTimer.start()
+for index, query in enumerate(queries, start=1):
+    for i in range(1):
+        print("\n==\n")
+        run_query(index, query)
+executionTimer.stop()
+connection.disconnect()
 print('The program will now exit.')
