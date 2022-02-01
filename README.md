@@ -1,6 +1,6 @@
-## Title
+## Thesis Title
 
-Study of Rapid Charging in Mobile devices
+Uniform Graph Query System based on openCypher
 
 ## Description
 
